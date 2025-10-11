@@ -98,6 +98,9 @@ class MyCallableTask implements Callable<String> {
 public class CallableFutureDemo {
     public static void main(String[] args) throws Exception {
         // 3. Normal ga threads ni manage cheyadaniki, manam ExecutorService vadatham.
+        //    NOTE: ExecutorService anedi oka powerful framework. Deeni gurinchi manam
+        //    Phase 7: Thread Pools lo chala detail ga nerchukundam.
+        //    Ippatiki, idi `Callable` tasks ni run cheyadaniki oka helper ani anukondi.
         ExecutorService executor = Executors.newSingleThreadExecutor();
         MyCallableTask task = new MyCallableTask();
 

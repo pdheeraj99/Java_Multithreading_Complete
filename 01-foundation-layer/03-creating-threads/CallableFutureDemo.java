@@ -22,9 +22,9 @@ class MyCallableTask implements Callable<String> {
 
 public class CallableFutureDemo {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        // 2. Callables ni run cheyadaniki, manam `ExecutorService` vadatham.
-        //    Idi threads ni manage chese oka powerful framework. Manam deeni gurinchi
-        //    tarvata chala detail ga nerchukundam.
+        // NOTE: ExecutorService anedi oka powerful framework for managing threads.
+        // Deeni gurinchi manam Phase 7: Thread Pools lo chala detail ga nerchukundam.
+        // Ippatiki, idi `Callable` tasks ni run cheyadaniki oka helper ani anukondi.
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
         MyCallableTask task = new MyCallableTask();
