@@ -1,7 +1,7 @@
 public class ThreadPropertiesDemo {
     public static void main(String[] args) throws InterruptedException {
 
-        // A simple task that prints its name and runs for a while.
+        // Main thread oka chinna task ni define chestundi.
         Runnable task = () -> {
             for (int i = 0; i < 3; i++) {
                 System.out.println("Thread '" + Thread.currentThread().getName() +
@@ -12,46 +12,41 @@ public class ThreadPropertiesDemo {
                     break;
                 }
             }
-             System.out.println("Thread '" + Thread.currentThread().getName() + "' finished.");
+             System.out.println(">>> Thread '" + Thread.currentThread().getName() + "' finished.");
         };
 
-        // 1. User Thread (Default)
-        // Evi foreground threads. JVM, okka user thread run avthunna kuda exit avvadu.
-        Thread userThread = new Thread(task);
-        userThread.setName("My-User-Worker");
+        // 1. Main thread oka normal "User Thread" ni create chestundi.
+        //    JVM, ee user thread pani poorthi ayye varaku wait chestundi.
+        Thread userThread = new Thread(task, "My-User-Worker");
 
-        // 2. Daemon Thread
-        // Evi background threads. Anni user threads complete ayipothe,
-        // JVM daemon threads kosam wait cheyakunda exit aypotundi.
-        Thread daemonThread = new Thread(task);
-        daemonThread.setName("My-Daemon-Worker");
-        daemonThread.setDaemon(true); // Mark this as a daemon thread. Must be done before start().
+        // 2. Main thread oka "Daemon Thread" ni create chestundi.
+        //    Idi oka background service worker lantiది.
+        Thread daemonThread = new Thread(task, "My-Daemon-Worker");
+        daemonThread.setDaemon(true); // Ee worker ni daemon ga mark chestunnam.
 
-        System.out.println("Starting threads...");
+        System.out.println("Main thread is starting both workers...");
         userThread.start();
         daemonThread.start();
 
-        // userThread.join(); // Ee line uncomment cheste, main thread userThread kosam wait chestundi.
-
-        System.out.println("Main thread has finished its work.");
+        System.out.println("Main thread has finished its work. It will now wait for the user thread to complete.");
         // Main thread ippudu exit avtundi. Kani, `userThread` inka run avtundi kabatti,
         // JVM program ni terminate cheyadu.
         // `userThread` complete ayyaka, inka active user threads emi levu kabatti,
-        // `daemonThread` run avthunna kuda JVM ventane shutdown aypotundi.
+        // `daemonThread` tana pani poorthi cheyakapoina, JVM ventane shutdown aypotundi.
     }
 }
 
 /*
 Expected Output (The exact interleaving of lines can vary):
 ============================================================
-Starting threads...
-Main thread has finished its work.
+Main thread is starting both workers...
+Main thread has finished its work. It will now wait for the user thread to complete.
 Thread 'My-User-Worker' (Daemon: false) is running...
 Thread 'My-Daemon-Worker' (Daemon: true) is running...
 Thread 'My-User-Worker' (Daemon: false) is running...
 Thread 'My-Daemon-Worker' (Daemon: true) is running...
 Thread 'My-User-Worker' (Daemon: false) is running...
 Thread 'My-Daemon-Worker' (Daemon: true) is running...
-Thread 'My-User-Worker' finished.
-(Notice that the daemon thread might not get to print its "finished" message)
+>>> Thread 'My-User-Worker' finished.
+(Notice that the daemon thread might not get to print its "finished" message, as the JVM exits)
 */

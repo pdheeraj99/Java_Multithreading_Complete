@@ -4,48 +4,40 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-// Approach 4: Using Callable and Future for results
 // `Runnable` tho problem enti ante, adi emi return cheyadu.
-// Oka thread nunchi result kavali ante, manam `Callable` vadali.
+// Oka worker thread nunchi `main` thread ki result kavali ante, manam `Callable` vadali.
 class MyCallableTask implements Callable<String> {
-
-    // 1. `call()` method, `run()` laantidi, kani idi oka value ni return cheyagaladu
-    //    and checked exceptions ni throw cheyagaladu.
     @Override
     public String call() throws Exception {
-        System.out.println("Callable task started in thread: " + Thread.currentThread().getName());
-        // Simulate a long-running task
+        System.out.println("Worker thread: Task start ayyindi, 2 seconds pani chestunna...");
         Thread.sleep(2000);
-        return "Hello from Callable! This is the result.";
+        System.out.println("Worker thread: Task poorthi ayyindi, result pampistunna.");
+        return "Pizza is ready!";
     }
 }
 
 public class CallableFutureDemo {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
-        // NOTE: ExecutorService anedi oka powerful framework for managing threads.
-        // Deeni gurinchi manam Phase 7: Thread Pools lo chala detail ga nerchukundam.
-        // Ippatiki, idi `Callable` tasks ni run cheyadaniki oka helper ani anukondi.
+        // NOTE: ExecutorService anedi oka powerful framework. Deeni gurinchi manam
+        // Phase 7: Thread Pools lo chala detail ga nerchukundam.
+        // Ippatiki, idi threads ni manage chese oka helper ani anukondi.
         ExecutorService executor = Executors.newSingleThreadExecutor();
 
-        MyCallableTask task = new MyCallableTask();
+        // 1. Main thread, task ni create chesi, executor ki submit chestundi.
+        System.out.println("Main thread: Pizza order istunnanu...");
+        Future<String> pizzaReceipt = executor.submit(new MyCallableTask());
 
-        System.out.println("Main thread is submitting the task...");
-        // 3. `submit()` method, task ni thread pool ki istundi.
-        //    Adi manaki ventane oka `Future` object ni istundi. Idi aa result ki
-        //    oka promise or placeholder. Task inka background lo run avthundochu.
-        Future<String> future = executor.submit(task);
+        System.out.println("Main thread: Pizza order ichanu. Receipt vachindi. Ippudu nenu vere panulu chusukuntunna...");
+        // Ee time lo, worker thread background lo pani chestu untundi.
 
-        System.out.println("Task is submitted. Main thread can do other work while task runs in background...");
-        // Ee time lo, main thread vere panulu chesukovachu.
+        // 2. Main thread, receipt (`Future`) tho result kosam wait chestundi.
+        //    `pizzaReceipt.get()` anedi blocking call. Result vache varaku `main` thread aagutundi.
+        System.out.println("Main thread: Naa panulu ayipoyayi, ippudu pizza kosam wait chestunna.");
+        String result = pizzaReceipt.get();
 
-        // 4. `future.get()` anedi blocking call. Ante, result vache varaku,
-        //    main thread ikkada aagi, wait chestundi (`WAITING` state).
-        System.out.println("Main thread is now waiting for the result...");
-        String result = future.get();
+        System.out.println("Main thread: Great! " + result);
 
-        System.out.println("Result received: " + result);
-
-        // 5. ExecutorService ni shutdown cheyadam chala important.
+        // 3. Main thread, executor ni shutdown chestundi.
         executor.shutdown();
     }
 }
@@ -53,9 +45,10 @@ public class CallableFutureDemo {
 /*
 Expected Output:
 ================
-Main thread is submitting the task...
-Task is submitted. Main thread can do other work while task runs in background...
-Main thread is now waiting for the result...
-Callable task started in thread: pool-1-thread-1
-Result received: Hello from Callable! This is the result.
+Main thread: Pizza order istunnanu...
+Main thread: Pizza order ichanu. Receipt vachindi. Ippudu nenu vere panulu chusukuntunna...
+Main thread: Naa panulu ayipoyayi, ippudu pizza kosam wait chestunna.
+Worker thread: Task start ayyindi, 2 seconds pani chestunna...
+Worker thread: Task poorthi ayyindi, result pampistunna.
+Main thread: Great! Pizza is ready!
 */

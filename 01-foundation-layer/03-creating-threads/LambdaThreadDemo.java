@@ -1,27 +1,28 @@
 public class LambdaThreadDemo {
     public static void main(String[] args) {
-        System.out.println("Main thread started. Current thread: " + Thread.currentThread().getName());
+        System.out.println("Main thread started its work.");
 
-        // Approach 3: Using a Lambda expression (Java 8+)
-        // `Runnable` anedi oka functional interface kabatti (okate abstract method undi),
-        // manam daani kosam separate class rayakkarledu.
-        // Ee lambda expression, `Runnable` yokka `run()` method ki implementation.
+        // `Runnable` anedi oka functional interface kabatti, manam daani kosam
+        // separate class rayakkarledu. Main thread direct ga oka lambda expression
+        // roopam lo task ni define chestundi.
         Runnable task = () -> {
-            System.out.println("Hello from a Lambda Thread! Executing in thread: " + Thread.currentThread().getName());
+            System.out.println("Lambda task is executing in thread: " + Thread.currentThread().getName());
         };
 
-        // Thread ni create chesi, task ni pass cheyadam same as before.
-        Thread thread = new Thread(task, "My-Lambda-Thread"); // We can also set the name in the constructor
-        thread.start();
+        // Main thread, oka kotha worker thread ni create chesi, daaniki ee task ni isthundi.
+        Thread worker = new Thread(task, "My-Lambda-Worker");
 
-        System.out.println("Main thread finished. Current thread: " + Thread.currentThread().getName());
+        // Main thread, worker thread ni start chestundi.
+        worker.start();
+
+        System.out.println("Main thread finished its work.");
     }
 }
 
 /*
 Expected Output (The order of the last two lines can vary):
 ============================================================
-Main thread started. Current thread: main
-Main thread finished. Current thread: main
-Hello from a Lambda Thread! Executing in thread: My-Lambda-Thread
+Main thread started its work.
+Main thread finished its work.
+Lambda task is executing in thread: My-Lambda-Worker
 */
