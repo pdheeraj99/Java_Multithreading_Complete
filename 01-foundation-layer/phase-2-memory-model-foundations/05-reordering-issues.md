@@ -1,8 +1,8 @@
 # 🚀 Phase 2: Reordering Issues - "That's Not the Order I Wrote!"
 
-[⬅️ Prev: 05-visibility-problems.md](./05-visibility-problems.md)
+[⬅️ Prev: 04-visibility-problems.md](./04-visibility-problems.md)
 
-Manam visibility problems gurinchi chusam. Oka thread chesina write, inkoka thread ki kanipinchakapovadam. Okay. But what if I told you that the lines of code you write are not guaranteed to execute in the same order you wrote them? 🤯
+Manam visibility problems gurinchi chusam. Oka thread chesina write, inkoka thread ki kanipinchakapovadam. That's a scary problem. But what if I told you there's an even more subtle and chaotic problem? What if the very order of your commands gets shuffled around without you knowing? 🤯
 
 Welcome to the mind-bending world of **Instruction Reordering**.
 
@@ -99,4 +99,12 @@ In our next big section, **Synchronization Mastery**, we will become masters of 
 
 You've built the foundation. Now, let's build the skyscraper. 🏙️
 
-[➡️ Next: Phase 3 - Intrinsic Locks](../../02-synchronization-mastery/phase-3-intrinsic-locks/07-synchronized-keyword.md)
+Okay, ippudu manam rendu pedda rakshasulani chusam: **Visibility** and **Reordering**. One can make our data invisible, and the other can shuffle our commands. How can we possibly write correct concurrent programs with these dangers lurking?
+
+This is where the hero of our story comes in. To control this chaos, the architects of Java created a formal set of rules, a specification that all JVMs and hardware must obey. This rulebook is our salvation.
+
+It's called the **Java Memory Model (JMM)**.
+
+Are you ready to learn the rules that tame these demons? Let's go! 👇
+
+[➡️ Next: 06-java-memory-model-the-solution.md](./06-java-memory-model-the-solution.md)

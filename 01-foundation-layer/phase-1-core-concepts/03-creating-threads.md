@@ -63,10 +63,10 @@ Ee concepts ni manam **Executor Framework** chapter lo inka chala deep ga explor
 
 Wow! Manam ippudu Java lo threads ni ela create cheyalo, vaati nunchi results ela teeskovaalo kuda nerchukunnam. We are no longer just theorists; we are practitioners! 🛠️
 
-Kaani, manam create chesina ee threads anni okate memory space ni share chesukuntayi ani cheppukunnam kadha? Appudu konni problems rava? Oka thread oka data ni modify chestunnappudu, inkoka thread kuda ade data ni modify cheste emavuthundi? Data corrupt avvada? 🤯
+So, we're done, right? We can write any concurrent program we want now?
 
-Ee "visibility" and "reordering" problems ni Java ela handle chestundi? Asalu "Java Memory Model (JMM)" ante enti? Ee prashnalaki samadhanam telusukokapothe, manam రాసే multithreaded code lo unpredictable bugs vastayi.
+Not quite. In fact, the most challenging and dangerous part of multithreading is just beginning. As we mentioned, threads share memory, which is their greatest strength... and their greatest weakness. When multiple threads touch the same data, things can go wrong in very strange ways.
 
-Let's step into the slightly more complex, but extremely crucial world of the **Java Memory Model**. Ready for the challenge?
+Before we learn how to write complex concurrent applications, we MUST understand the dangers that lurk in the shadows. Are you ready to step into the dark side and see what happens when things go wrong?
 
-[➡️ Next: Phase 2 - Memory Model Foundations](../phase-2-memory-model-foundations/04-java-memory-model.md)
+[➡️ Next: Introduction to Memory Problems](../phase-2-memory-model-foundations/03-intro-to-memory-problems.md)

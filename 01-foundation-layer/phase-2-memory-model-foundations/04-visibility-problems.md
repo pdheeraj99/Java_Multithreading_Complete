@@ -1,10 +1,10 @@
 # 🚀 Phase 2: Visibility Problems - The "I Can't See You" Issue
 
-[⬅️ Prev: 04-java-memory-model.md](./04-java-memory-model.md)
+[⬅️ Prev: 03-intro-to-memory-problems.md](./03-intro-to-memory-problems.md)
 
-Manam mundu chapter lo JMM gurinchi, and adi iche "happens-before" guarantee gurinchi nerchukunnam. `synchronized` lanti constructs vadithe, memory writes anni vere threads ki correct ga kanipistayi ani cheppukunnam.
+Mana previous introduction lo, multithreading lo unna dangers gurinchi matladukunnam. CPU caches and compiler optimizations valla anukoni problems vastayi ani cheppukunnam.
 
-But... asalu enduku kanipinchavu? Why does this "visibility" problem even exist? 🤔 The answer lies deep inside our computer's hardware.
+Ee problems lo మొదటిది and most common di **Visibility Problem**. Let's dive deep into what that means.
 
 ## Analogy: The Head Chef and the Assistant Chef 👨‍🍳
 
