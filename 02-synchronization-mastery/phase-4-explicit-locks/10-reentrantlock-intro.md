@@ -2,11 +2,19 @@
 
 [⬅️ Prev: ../phase-3-intrinsic-locks/09-producer-consumer-pattern.md](../phase-3-intrinsic-locks/09-producer-consumer-pattern.md)
 
-Manam Phase 3 lo `synchronized`, `wait`, and `notify` gurinchi master chesam. We can build robust, coordinated applications. So, inkem kavali? Why does Java need another way to lock?
+Manam Phase 3 lo `synchronized`, `wait`, and `notify` gurinchi master chesam. We have a powerful hammer in our toolkit. But what happens when you need a screwdriver? Or a wrench?
 
-## The Problem: `synchronized` is a Bit *Too* Simple
+`synchronized` is a great hammer: it's simple, effective, and gets the job done for many basic tasks. But as you build more complex applications, you'll start to feel its limitations. You'll find yourself saying, "I wish I could..."
 
-`synchronized` anedi powerful, kaani adi konchem rigid ga untundi. Oka car lo automatic transmission laaga – chala easy to use, kaani professional racers ki కావలసినంత control undadu.
+## The "I Wish I Could..." Problem with `synchronized`
+
+Here are the frustrations you will eventually face with `synchronized`:
+*   "I wish I could **try** to get the lock, and if it's busy, just do something else instead of waiting forever." (`synchronized` always blocks).
+*   "I wish I could **interrupt** a thread that's been waiting for a lock for too long." (`synchronized` waits are not interruptible).
+*   "I wish I could make the lock **fair**, so the thread that's been waiting the longest gets it next." (`synchronized` makes no fairness guarantees).
+*   "I wish I could have **separate waiting rooms** for my producers and consumers instead of waking everyone up with `notifyAll()`." (`synchronized` only has one wait set per object).
+
+Ee frustrations ni solve cheyadaniki, Java developers manaki oka brand new, professional-grade toolkit icharu: the `java.util.concurrent.locks` package. Andulo unna mana first and most important tool ye `ReentrantLock`.
 
 Here are some limitations of `synchronized`:
 1.  **Can't Interrupt**: Oka thread `synchronized` block kosam wait chestunte, daanini manam interrupt cheyalem. Adi lock dorike varaku akkade `BLOCKED` state lo untundi, forever if needed.

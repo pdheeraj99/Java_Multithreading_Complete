@@ -1,8 +1,10 @@
 # 🚀 Phase 1: Core Concepts - Process vs Thread vs Coroutine
 
-Hi friends! 👋 Multithreading ane ee beautiful world loki welcome. Meeru eppudaina anukunnara, "Okate sari computer inni panulu ela chestundi? Nenu music vintu, code rastu, background lo files download chestunte... anni smooth ga ela jarugutunnayi?" 🤔
+Hi friends! 👋 Ee roju manam multithreading ane oka pedda samudhram lo ki dookabothunnam. Ee journey complete ayye sariki, meeru oka expert la tayaru avutharu, idi naa promise.
 
-Ee magic venakala unna core concepts ni manam ippudu telusukundam. Let's start with the basics: Process, Thread, and Coroutine.
+First things first, manam eppudaina anukunnama, "Naa laptop lo nenu music vintu, browser lo edo chustu, background lo VS Code lo edo download chestunte... anni okate sari ela chestunnayi? Asalu computer ki inni chetulu unnaya?" ani. 🤔
+
+Aa magic venakala unna asalu rahasyam, aa "how" venakala unna "what" ni manam ee roju bhedhiddham. Let's start with the three musketeers of concurrency: Process, Thread, and Coroutine.
 
 ## Analogy: The Grand Restaurant 🍽️
 

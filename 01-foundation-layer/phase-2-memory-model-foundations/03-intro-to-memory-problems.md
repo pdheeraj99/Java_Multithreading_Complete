@@ -2,17 +2,15 @@
 
 [⬅️ Prev: ../phase-1-core-concepts/03-creating-threads.md](../phase-1-core-concepts/03-creating-threads.md)
 
-Congratulations! 🥳 Manam Phase 1 lo threads ni ela create cheyalo nerchukunnam. We are now able to create multiple "chefs" and assign them tasks. Everything seems to work perfectly.
+Congratulations! 🥳 Manam Phase 1 lo threads ni ela create cheyalo nerchukuni, oka pedda milestone ni complete chesam. Mana code kuda perfect ga pani chesindi. Everything seems fine.
 
-So, are we done? Can we now write any multithreaded program?
-
-Not so fast. Ikkade asalu challenge start avuthundi.
+Kaani, nenu mundu chapter lo cheppinattu, this is the most dangerous moment. Ikkade asalu katha, asalu challenge start avuthundi.
 
 ## The Double-Edged Sword: Shared Memory 🗡️
 
-Manam `Process vs Thread` chapter lo matladukunnattu, threads yokka greatest strength enti? **Shared Memory**. All threads within a process can access the same data in the heap. Idi communication ni chala fast and easy ga chestundi.
+Manam `Process vs Thread` chapter lo nerchukunnam: threads yokka greatest strength enti? **Shared Memory**. Anni threads okate memory ni (mana restaurant kitchen lo unna ingredients ni) share chesukuntayi. Deeni valla communication chala fast ga, easy ga untundi. Idi manam pondhina varam (a boon).
 
-Kaani, ee greatest strength ye, multithreading lo greatest weakness kuda. Idi oka double-edged sword.
+But, ee varame, oka shaapam (a curse) laaga kuda maripothundi. Ee greatest strength ye, multithreading lo greatest weakness kuda.
 
 Imagine chesukondi, iddari chefs (threads) okate recipe book (shared data) ni at a time update cheyadaniki try chestunnaru.
 *   Chef-1 oka page lo "add 1 cup of sugar" ani rastunnadu.

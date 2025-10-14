@@ -2,13 +2,14 @@
 
 [⬅️ Prev: 10-reentrantlock-intro.md](./10-reentrantlock-intro.md)
 
-Manam `ReentrantLock` basics and the critical `try-finally` block gurinchi nerchukunnam. But the real reason to use `ReentrantLock` over `synchronized` is for its advanced capabilities. Let's explore them.
+Manam `ReentrantLock` basics and the critical `try-finally` block gurinchi nerchukunnam. Ippudu, manam mundu chapter lo anukunna "I wish I could..." list lo unna problems ni okkokkati ga solve cheddam.
 
-## 1. `tryLock()` - The Non-Blocking Lock
+## 1. Solving "I wish I could try for a lock" with `tryLock()`
 
-`lock()` anedi blocking call. Ante, lock dorike varaku thread akkade block aypothundi. But what if you don't want to wait? What if you want to say, "If the lock is available, I'll take it. If not, I'll just do something else."
+Remember our first frustration? `synchronized` tho manam lock kosam forever wait cheyyalsi vachedi. `ReentrantLock` solves this with the `tryLock()` method. Idi manaki rendu options istundi:
 
-`tryLock()` is the answer.
+*   `lock.tryLock()`: "Lock kosam try cheyyi. Dorikithe `true` ivvu, lekapothe ventane give up chesi `false` ivvu. Nenu wait cheyanu."
+*   `lock.tryLock(long time, TimeUnit unit)`: "Lock kosam ee specific time varaku try cheyyi. Ee lopu dorikithe `true` ivvu, lekapothe time aypoyaka give up chesi `false` ivvu."
 *   `lock.tryLock()`: Tries to acquire the lock immediately. If successful, it returns `true`. If the lock is held by another thread, it returns `false` *immediately* without blocking.
 *   `lock.tryLock(long time, TimeUnit unit)`: Tries to acquire the lock within a given timeout. If it gets the lock within the time, it returns `true`. If the time expires, it returns `false`.
 
@@ -26,11 +27,11 @@ if (lock.tryLock()) {
 }
 ```
 
-## 2. `lockInterruptibly()` - The Cancellable Wait
+## 2. Solving "I wish I could interrupt a waiting thread" with `lockInterruptibly()`
 
-Imagine a thread is waiting for a lock. With `synchronized`, it's stuck. There's no way to tell it, "Hey, stop waiting, I have a more important task for you."
+Mana rendava frustration: `synchronized` kosam wait chestunna thread ni manam `interrupt()` cheyalemu. Adi `BLOCKED` state lo untundi, mana maata vinadu.
 
-`lock.lockInterruptibly()` solves this. A thread waiting in `lockInterruptibly()` can be, as the name suggests, interrupted. If another thread calls `interrupt()` on the waiting thread, `lockInterruptibly()` will throw an `InterruptedException`, and the thread can stop waiting for the lock and handle the interruption.
+`lock.lockInterruptibly()` ee problem ni solve chestundi. Ee method tho lock kosam wait chestunna thread, interruption ki respond avuthundi. Vere thread `interrupt()` ni call cheste, ee method `InterruptedException` tho fail avuthundi. Appudu aa thread wait cheyadam aapi, vere pani chesukovachu.
 
 This is crucial for building responsive and cancellable applications.
 
@@ -52,11 +53,11 @@ try {
 }
 ```
 
-## 3. Fairness Policy - First-Come, First-Served
+## 3. Solving "I wish the lock was fair" with Fairness Policy
 
-By default, `ReentrantLock` is **unfair**. When a lock is released, any thread can try to acquire it. A new, eager thread might "barge in" and grab the lock, even if other threads have been waiting for a long time. This can lead to **starvation**, where some threads never get a chance to run.
+Mana third frustration: `synchronized` anedi unfair. Evaru mundu vacharu anedi daaniki anavasaram. A new thread might "barge in" and steal the lock from a thread that has been waiting patiently for a long time. Ee process lo, konni threads eppatiki chance rakunda starve avvochu.
 
-To prevent this, you can create a **fair** lock. A fair lock guarantees that the thread that has been waiting the longest will get the lock next (first-in, first-out or FIFO order).
+`ReentrantLock` manaki oka choice istundi. By default, it's also unfair (for performance reasons). Kaani, manaki fairness kavali anukunte, we can create a **fair** lock. A fair lock respects a FIFO (First-In, First-Out) waiting queue. Evaraite mundu vachi wait chestunnaro, vallake next chance vastundi.
 
 **How to create a fair lock:**
 ```java

@@ -2,9 +2,10 @@
 
 [⬅️ Prev: 01-process-vs-thread.md](./01-process-vs-thread.md)
 
-Manam mundu chapter lo "chefs" (threads) gurinchi matladukunnam kadha? Vallu kitchen (process) lo untu panulu chestharani telusukunnam. Kaani, aa chef kitchen loki enter ayinappudu nunchi, tana shift complete ayye varaku em chestadu? Tana life lo enni stages untayi? 🤔
+Manam mundu chapter lo manchiga restaurant analogy tho "chefs" (threads) ante ento ardham chesukunnam. Super! Ippudu aa chef yokka day-in-the-life chuddam.
+Ante, atanu kitchen (process) loki enter ayinappudu nunchi, tana shift complete ayye varaku em chestadu? Atanu eppudu pani chestadu? Eeppudu rest teeskuntadu? Eeppudu vere valla kosam wait chestadu? 🤔
 
-Oka thread ni create chesinంత మాత్రాన adi pani cheyadam start cheyadu. Adi OS scheduler kosam wait cheyochu, leda inkoka thread kosam wait cheyochu, leda lock kosam block ayi undochu. Ee states ni ardham chesukovadam chala important, endukante appude manam performance issues ni, deadlocks ni easy ga identify cheyagalam.
+"Asalu idi naku enduku anukuntunnara?" Ee states gurinchi teliyakapothe, manam complex problems ni debug cheyalem. Mee application enduku slow ga undi, leda enduku hang aypoyindi ani adiginappudu, "Oh, maybe andulo unna threads anni `BLOCKED` or `WAITING` state lo unnayi emo" ani cheppagalige level ki manam ravali. Anduke ee topic antha important.
 
 Let's explore the fascinating journey of a thread!
 

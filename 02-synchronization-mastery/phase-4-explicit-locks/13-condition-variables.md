@@ -2,17 +2,21 @@
 
 [⬅️ Prev: 12-readwritelock-intro.md](./12-readwritelock-intro.md)
 
-Manam `ReentrantLock` tho `synchronized` kanna better control sadhincham. `ReadWriteLock` tho read-heavy scenarios lo performance pencham. But there's one last piece of the puzzle.
+Manam `ReentrantLock` and `ReadWriteLock` tho locking ni master chesam. But what about coordination? Remember the last frustration from our "I wish I could..." list?
 
-## The Problem: The "One-Size-Fits-All" Waiting Room
+*"I wish I could have separate waiting rooms for my producers and consumers instead of waking everyone up with `notifyAll()`."*
 
-Manam Phase 3 lo Producer-Consumer pattern ni `wait()` and `notifyAll()` tho implement chesam. Adi pani chesindi, kaani daanilo oka inefficiency undi.
-*   Producers wait for the condition "buffer is not full".
-*   Consumers wait for the condition "buffer is not empty".
+Let's solve this final problem.
 
-Kaani, `synchronized(this)` use cheste, andaru (producers and consumers) okate object yokka "waiting room" lo wait chestaru.
-When a producer adds an item and calls `notifyAll()`, it wakes up **everyone** – all waiting consumers AND all waiting producers.
-Aa lechina producers malli buffer full ga undi ani chusi, ventane malli `wait()` loki vellipotharu. This is called a **spurious wakeup** from their perspective and it's inefficient. It's like a fire alarm that goes off for the whole building when only one apartment's toast is burning.
+## The Problem: The Noisy, Crowded Waiting Room
+
+Manam Phase 3 lo Producer-Consumer pattern ni `wait()` and `notifyAll()` tho implement chesam. It worked, but it was noisy and inefficient.
+*   Producers wait for the buffer to be "not full".
+*   Consumers wait for the buffer to be "not empty".
+
+But with a single intrinsic lock, they all end up in the **same waiting room**. When a producer adds an item and shouts `notifyAll()`, it wakes up **everyone**. The consumers wake up (good!), but all the other waiting producers *also* wake up (bad!). They just check the buffer, see it's still full, and go right back to sleep. This is wasteful.
+
+It's like being in a doctor's waiting room. When the nurse comes out and says "Next patient!", everyone in the room has to get up, check if their name was called, and then sit back down if it wasn't.
 
 Wouldn't it be better if we had two separate waiting rooms?
 1.  A "Not Full" room where only Producers wait.

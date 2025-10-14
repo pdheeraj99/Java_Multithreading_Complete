@@ -2,20 +2,18 @@
 
 [⬅️ Prev: 11-reentrantlock-features.md](./11-reentrantlock-features.md)
 
-Manam `ReentrantLock` tho fine-grained control sadhinchagalam ani chusam. Kaani, manam inka oka common performance problem ni solve cheyaledu.
+Manam `ReentrantLock` tho enni problems solve cheyacho chusam. It's a fantastic tool. But what if our main problem isn't fairness or interruptibility, but pure, raw **performance**?
 
-## The Problem: Readers Get in Each Other's Way
+## The Problem: The Readers' Traffic Jam
 
-Imagine a scenario:
-*   You have a shared data structure, like a `Map` or a `List`.
-*   Multiple threads need to **read** from this data structure.
-*   Occasionally, one thread needs to **write** to it.
+Imagine a very popular blog.
+*   1000s of users (**Reader Threads**) are trying to read the articles at the same time.
+*   Once in a while, the author (**Writer Thread**) logs in to fix a typo.
 
-This "many readers, few writers" pattern is very common (e.g., application configuration, user session data, etc.).
+If we protect the blog's content with a standard `ReentrantLock` (or `synchronized`), what happens? A traffic jam!
+Only one reader can access the content at a time. Reader-2 has to wait for Reader-1 to finish. Reader-3 has to wait for Reader-2. It's like a single-file line into a massive library.
 
-If we use a `synchronized` block or a `ReentrantLock`, what happens?
-Only one thread can access the data at a time, **regardless of whether it's reading or writing**.
-If 100 threads want to read the data, they have to line up and do it one by one. This is a massive performance bottleneck! Reading is a harmless operation. It doesn't change the data. So, there is no reason why multiple threads shouldn't be allowed to read at the same time.
+This is incredibly inefficient. Reading data is a harmless operation; it doesn't change anything. Logically, all 1000 readers should be able to read the article simultaneously without any issue. The only time we need to block everyone is when the author is actively writing.
 
 How can we implement a lock that is:
 *   **Shared** for readers (allowing many concurrent readers).

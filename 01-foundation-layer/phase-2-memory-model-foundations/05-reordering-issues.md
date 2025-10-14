@@ -2,9 +2,11 @@
 
 [⬅️ Prev: 04-visibility-problems.md](./04-visibility-problems.md)
 
-Manam visibility problems gurinchi chusam. Oka thread chesina write, inkoka thread ki kanipinchakapovadam. That's a scary problem. But what if I told you there's an even more subtle and chaotic problem? What if the very order of your commands gets shuffled around without you knowing? 🤯
+Manam visibility problems gurinchi chusam. Oka thread chesina write, inkoka thread ki kanipinchakapovadam. Okay, that's one demon. Ippudu rendava rakshasini chuddam. Idi inka subtle, inka dangerous.
 
-Welcome to the mind-bending world of **Instruction Reordering**.
+What if I told you that the code you write isn't the code that actually runs? What if the JVM and CPU, like mischievous gremlins, shuffle your carefully written instructions into a different order? 🤯
+
+Welcome to the truly mind-bending world of **Instruction Reordering**.
 
 ## Why Reorder Code? Performance, Performance, Performance!
 

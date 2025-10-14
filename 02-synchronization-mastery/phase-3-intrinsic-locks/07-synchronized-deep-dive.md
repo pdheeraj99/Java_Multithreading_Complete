@@ -2,7 +2,11 @@
 
 [⬅️ Prev: ../../01-foundation-layer/phase-2-memory-model-foundations/06-java-memory-model-the-solution.md](../../01-foundation-layer/phase-2-memory-model-foundations/06-java-memory-model-the-solution.md)
 
-Welcome to Synchronization Mastery! Manam Foundation Layer lo, `synchronized` lanti constructs lekunda code rasthe enni rakala problems (visibility, reordering) vastayo chusam. Ippudu, manam aa problems ni solve chese first and most important weapon gurinchi nerchukuntam: the `synchronized` keyword.
+Welcome to Synchronization Mastery! Manam Foundation Layer lo, Visibility and Reordering ane rakshasulani chusam. Manam JMM ane rulebook gurinchi kuda nerchukunnam.
+
+Ippudu asalu question: aa rulebook ni manam code lo ela enforce cheyali? How do we actually use the JMM's guarantees?
+
+The answer is with Java's first and most fundamental weapon against concurrency chaos: the `synchronized` keyword.
 
 ## The Core Idea: Intrinsic Locks (Monitors)
 

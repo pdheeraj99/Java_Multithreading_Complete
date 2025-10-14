@@ -44,10 +44,24 @@ The elegant solution uses `wait()` and `notifyAll()` to pause and resume threads
 4.  Call `buffer.notifyAll()`. This wakes up any waiting Producer threads, letting them know that space is now available in the buffer.
 5.  Release the lock.
 
-### Why `notifyAll()` instead of `notify()`?
-In complex scenarios, you might have multiple producers and multiple consumers all waiting on the same lock. If a producer calls `notify()`, it might accidentally wake up another producer (who will see the buffer is still full and go back to sleep), instead of a consumer. This could lead to a situation where all consumers are sleeping and never get woken up.
+### An Expert Question: Why `notifyAll()`? Why not just `notify()`?
 
-`notifyAll()` is safer because it wakes up *all* waiting threads (producers and consumers). They will all re-check their condition in the `while` loop, and the ones who can proceed (the consumers, in this case) will do so. It's less performant than `notify()` but much less prone to deadlocks. As a rule of thumb, **always prefer `notifyAll()` until you are an expert and can mathematically prove that `notify()` is safe for your specific use case.**
+This is a fantastic question that separates intermediate developers from experts. `notify()` seems more efficient, right? It only wakes up one thread. `notifyAll()` wakes up everyone, which seems wasteful.
+
+Here's the danger. Imagine:
+*   2 Producer threads (P1, P2) are waiting because the buffer is full.
+*   2 Consumer threads (C1, C2) are waiting because the buffer is empty.
+
+Now, a thread runs `consume()` and calls `notify()`. The JVM is free to wake up *any* waiting thread. What if it wakes up P2?
+*   P2 wakes up, checks the condition `while (buffer.size() == capacity)`.
+*   The buffer is still full! So P2 goes right back to sleep (`wait()`).
+*   The original signal is now lost. C1 and C2, the threads that could have actually made progress, were never woken up.
+
+If this happens repeatedly, it's possible for all the consumers to be stuck sleeping forever, even when there are items in the buffer. This is called a "lost wakeup".
+
+`notifyAll()` solves this by waking up **everyone**. Yes, P1 and P2 will wake up, see the buffer is still full, and go back to sleep. But crucially, C1 and C2 will *also* wake up, see the buffer is no longer empty, and proceed to consume the data.
+
+**The Golden Rule:** Always use `notifyAll()` unless you are 100% certain that every single thread is waiting for the exact same condition and any thread can make progress upon waking up. When in doubt, `notifyAll()` is the safer, more robust choice.
 
 [✅ View Fixed Code: `ProducerConsumerSolution.java`](./09-producer-consumer-pattern/ProducerConsumerSolution.java)
 
